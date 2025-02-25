@@ -37,6 +37,7 @@ app.get("/",(req,res)=>{
 function isAbuseFree(message){
     splitMessage=message.toLowerCase().split(/\s+/);
     for(let word of splitMessage){
+        word=word.replace(/[^a-zA-Z0-9\s]/g, "");
         if(trie.search(word)){
             
             return false;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      
+    </style>
+  </head>
+  <body>
+   <h4>Live stream</h4>
+   <input type = "text" id = "inputmsg" placeholder="enter your message"/>
+   <button id="sendBtn">Send</button>
+   <textarea id="text"></textarea>
+  </body>
+
+  <!-- createing client on the frontend -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    const message = document.getElementById("inputmsg");
+    const sendBtn = document.getElementById("sendBtn");
+    const textField = document.getElementById("text");
+    socket.on("message", (msg)=>{
+        textField.value += msg + "\n";
+        textField.scrollTop = textField.scrollHeight; // Auto-scroll to latest message
+
+        console.log(msg);
+    })
+    socket.on("errorMsg", (msg)=>{
+        textField.value += msg + "\n";
+        textField.scrollTop = textField.scrollHeight; // Auto-scroll to latest message
+
+        console.log(msg);
+    })
+    sendBtn.addEventListener("click", ()=>{
+        const msg = message.value;
+        socket.emit("message", msg);
+    })
+  </script>
+</html>
